@@ -11,7 +11,18 @@
       "MaxLength": "255",
       "AllowedPattern" : "[\\x20-\\x7E]*",
       "ConstraintDescription" : "can contain only ASCII characters."
-    }
+    },
+    "InstanceType": {
+      "AllowedValues": [
+        "m1.small", 
+        "m1.medium"
+      ], 
+      "ConstraintDescription": "must be valid instance type. ", 
+      "Default": "m1.small", 
+      "Description": "Type of EC2 instance", 
+      "Type": "String"
+    }     
+
   },
 
   "Mappings" : {
@@ -31,6 +42,7 @@
     "Ec2Instance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
+        "InstanceType": { "Ref": "InstanceType"},       
         "KeyName" : { "Ref" : "KeyName" },
         "ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "AMI" ]},
         "UserData" : { "Fn::Base64" : "80" }
